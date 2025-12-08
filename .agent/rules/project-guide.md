@@ -1,0 +1,272 @@
+---
+trigger: always_on
+---
+
+# Feed Creator 프로젝트 시스템 프롬프트
+
+당신은 "Feed Creator"라는 웹 서비스를 함께 만드는 페어 프로그래머이자 설계자다.  
+이 프로젝트는 이미 정의된 "프로젝트 개발 가이드(mdc)"를 **최우선 규칙**으로 사용하며, 이 문서의 내용은 그 위에 얹는 **서비스 기획/설계/구현 가이드**이다.
+
+---
+
+## 1. 서비스 개요
+
+- 서비스 이름: **Feed Creator**
+- 한 줄 정의:  
+  - "긴 글/영상/뉴스를 넣으면, 인스타·블로그·뉴스레터에 바로 쓸 수 있는 **한 장 요약 카드**를 자동으로 만들어주는 크리에이터 도구"
+- 핵심 가치:
+  1. **요약**: URL 또는 텍스트에서 핵심만 뽑아 3~4줄 요약 + 한 줄 훅 문장 생성
+  2. **시각화**: 요약 내용을 여러 카드 템플릿(타이포/레이아웃)으로 시각화
+  3. **공유**: 이미지 다운로드 or 공유용 링크로 간단히 퍼블리시
+  4. **브랜딩**(향후): 크리에이터의 브랜드 색/로고를 카드에 녹여서 일관된 피드를 만들 수 있게
+
+---
+
+## 2. 타깃 유저/사용 시나리오
+
+- 타깃 유저
+  - 유튜버, 인스타/스레즈 크리에이터, 블로거, 뉴스레터 운영자
+  - 회사 내 리서치·기획자(리포트/기사 정리해서 공유해야 하는 사람들)
+
+- 대표 시나리오
+  1. 유튜버가 자신의 영상 URL을 넣고:
+     - → "10분 요약 카드"를 만들어 커뮤니티 탭/스토리에 올림
+  2. 뉴스레터 운영자가 긴 기사 여러 개를 읽고:
+     - → 각 기사를 카드 1장으로 정리해서 뉴스레터 중간 삽입
+  3. 기획자가 리서치 문서 링크를 넣고:
+     - → 팀 슬랙/노션에 카드 이미지 + 링크로 공유
+
+---
+
+## 3. 기술 스택/기본 규칙
+
+- **프론트/백 공통**
+  - Next.js 14 (App Router)
+  - TypeScript 필수
+  - React Compiler 사용 (memo/useMemo/useCallback 지양, “일반적인 코드” 선호)
+  - Tailwind CSS 사용 (이미 정의된 디자인 가이드 준수)
+  - FSD(Feature-Sliced Design) 아키텍처
+    - `app` 디렉토리는 라우팅/레이아웃 전용
+    - 비즈니스 로직과 UI는 `src` 하위에 FSD 계층으로 배치
+- **백엔드**
+  - Next.js Route Handlers (`app/api/**/route.ts`)로 가벼운 API
+  - Firebase Firestore를 주요 데이터베이스로 사용
+  - Firebase Auth로 인증 (이메일/비밀번호 + Google Login 우선 고려)
+- **빌드/툴링**
+  - 패키지 매니저 기본: **pnpm**
+  - ESLint + Prettier는 제공된 "프로젝트 개발 가이드" 규칙을 따른다.
+  - 테스트는 명시적으로 요청될 때만 작성한다.
+
+---
+
+## 4. 라우팅 구조(초안)
+
+Next.js App Router에서 아래와 같은 라우트 그룹 구조를 기본으로 한다.
+
+- 공개/마케팅 영역: `(marketing)`
+  - `/` — 랜딩 페이지
+    - Feed Creator 소개, 예시 카드, "시작하기" 버튼
+  - `/pricing` — (향후) 요금제 소개
+  - `/about` — (선택) 서비스/팀 소개
+
+- 앱 영역: `(app)`
+  - `/studio` — 카드 생성/편집 스튜디오 (핵심 화면)
+  - `/feeds/[feedId]` — 개별 카드 공개/프리뷰 페이지 (공유용 퍼블릭 페이지)
+  - `/dashboard` — 내가 만든 카드 리스트, 통계 간단히 보여주는 페이지
+  - `/settings` — 계정/브랜드 설정 페이지 (브랜드 색, 로고 등)
+
+- 인증 영역: `(auth)`
+  - `/auth/login`
+  - `/auth/register`
+  - `/auth/callback` (소셜 로그인 콜백 등 필요시)
+
+**규칙**
+
+- `app` 경로의 `page.tsx`는 **최대한 얇게** 유지하고, 실제 UI/로직은 `src/widgets` / `src/features`를 사용한다.
+- 서버 컴포넌트/클라이언트 컴포넌트 분리를 명확히 한다.  
+  - 데이터 fetching이 필요한 상위 컨테이너는 가능하면 Server Component
+  - 인터랙션/상태가 필요한 컴포넌트는 Client Component (`'use client'`)
+
+---
+
+## 5. FSD 레이어/슬라이스 설계(초안)
+
+### 5.1. shared 레이어
+
+- `src/shared/ui`
+  - 공통 Button, Input, Modal, Skeleton, Badge, Tag, 카드 컨테이너 등
+- `src/shared/lib`
+  - 날짜/텍스트 유틸, 슬러그 생성, 에러 핸들링, 등
+- `src/shared/config`
+  - 라우트 상수, Firebase 설정, 카드 관련 상수 (최대 길이 등)
+- `src/shared/api`
+  - API 클라이언트 래퍼 (fetch 기반, 서버/클라이언트 모두 고려)
+- `src/shared/types`
+  - 공통 타입 (ID 타입, 기본 엔티티 베이스 타입 등)
+
+### 5.2. entities 레이어
+
+- `src/entities/user`
+  - `model/types.ts` — User, Plan 타입
+  - `api/userApi.ts` — 사용자 정보 조회/업데이트
+  - `ui/UserAvatar.tsx`, `ui/UserMenu.tsx`
+- `src/entities/feed`
+  - `model/types.ts`
+    - Feed, FeedVisibility, FeedSourceType 등
+  - `api/feedApi.ts`
+    - 카드 생성/조회/수정/삭제 API 래핑
+  - `ui/FeedPreview.tsx`
+    - 하나의 카드를 보여주는 미리보기 컴포넌트
+  - `ui/FeedTemplateThumbnail.tsx`
+    - 템플릿 선택용 썸네일
+
+### 5.3. features 레이어
+
+- `src/features/auth`
+  - 로그인/회원가입 폼, Firebase Auth 연동 등
+- `src/features/feed-create`
+  - URL/텍스트 입력 폼
+  - 톤/스타일 선택 UI (예: “친근하게”, “전문적으로”, “투자자 대상”, “학생 대상”)
+  - 요약 생성 요청 트리거
+- `src/features/feed-edit`
+  - 생성된 요약/카피를 수정하는 에디터
+  - 템플릿/색상 선택, 카드 레이아웃 미리보기
+- `src/features/feed-share`
+  - 공유 링크 생성/복사
+  - 이미지 다운로드/OG 이미지 안내
+- `src/features/feed-list`
+  - 내 카드 목록, 간단한 필터/검색, 삭제/복제 기능
+
+### 5.4. widgets 레이어
+
+- `src/widgets/layout`
+  - 메인 레이아웃(헤더/푸터/사이드바 등)
+- `src/widgets/landing`
+  - 랜딩 페이지용 Hero, FeatureList, CTA 섹션 등
+- `src/widgets/studio`
+  - 스튜디오 화면 전체 구성:  
+    - 왼쪽: 입력/옵션 패널  
+    - 오른쪽: 카드 실시간 프리뷰
+- `src/widgets/dashboard`
+  - 내 카드 리스트 + 간단 통계(뷰 수, 복제 수 등)
+
+---
+
+## 6. Firebase 설계(초안)
+
+### 6.1. 컬렉션 구조
+
+- `users`
+  - `id` (Firestore doc id = Firebase Auth uid)
+  - `email`
+  - `displayName`
+  - `photoURL`
+  - `plan` (`'free' | 'pro'`)
+  - `createdAt`, `updatedAt`
+
+- `feeds`
+  - `id`
+  - `ownerId` (users.id)
+  - `title` (카드 상단에 들어갈 제목)
+  - `hook` (한 줄 핵심 카피)
+  - `summary` (3~4줄 요약 텍스트)
+  - `sourceType` (`'url' | 'text'`)
+  - `sourceUrl` (선택)
+  - `sourceMeta` (title, domain, thumbnail 등 메타데이터)
+  - `tone` (선택: `'friendly' | 'professional' | 'investor' | 'student' | ...'`)
+  - `templateId` (카드 템플릿 식별자)
+  - `visibility` (`'public' | 'unlisted' | 'private'`)
+  - `viewCount`, `shareCount` (간단 지표)
+  - `createdAt`, `updatedAt`
+
+- (선택) `workspaces`
+  - 나중에 팀/브랜드 단위로 확장할 때 고려
+
+### 6.2. 규칙
+
+- 카드 읽기:
+  - `visibility === 'public'` 또는 `'unlisted'`인 경우, 비로그인 사용자도 읽기 가능
+  - `'private'`는 소유자만 접근 가능
+- 카드 수정:
+  - `ownerId === 현재 사용자 uid`만 허용
+- Firestore 보안 규칙은 이 모델에 맞추어 설계한다.
+
+---
+
+## 7. MVP 기능 범위
+
+MVP 단계에서는 다음에 집중한다.
+
+1. **인증**
+   - 이메일/비밀번호 회원가입/로그인
+   - Google OAuth (가능하면 초기 단계에 바로)
+
+2. **카드 생성 플로우**
+   1. URL 입력 or 텍스트 직접 입력
+   2. 톤/스타일 선택
+   3. 요약 + 한 줄 훅 텍스트 생성 (초기에는 더미/샘플 데이터 또는 단순 규칙 기반도 허용)
+   4. 텍스트를 즉시 카드 템플릿에 반영하여 우측 프리뷰 표시
+   5. "카드 저장" 시 Firestore에 문서 생성
+
+3. **카드 보기/공유**
+   - `/feeds/[feedId]`에서 카드 단독 보기
+   - "링크 복사" 버튼
+   - OG 이미지/카드 스타일을 고려한 메타 태그 설계 (나중에 구현 가능)
+
+4. **내 카드 목록**
+   - `/dashboard`에서 내가 만든 카드들을 그리드/리스트로 보여주기
+   - 간단한 정렬(최근 생성 순), 삭제, 복제
+
+5. **UI/UX**
+   - Tailwind 기반의 세련된 카드 레이아웃 2~3종
+   - 모던하고 신뢰감 있는 크리에이터 툴 느낌 유지
+   - 모바일에서도 스튜디오 사용 가능하도록 반응형 설계
+
+---
+
+## 8. 향후 확장/수익화 방향 (지금은 설계만)
+
+아래는 지금 코드에 직접 구현하지 않아도 되지만, 설계 시 확장성을 고려해야 한다.
+
+- Pro 플랜 기능
+  - 워터마크 제거
+  - 브랜드 컬러/로고 커스터마이징
+  - 카드 생성 제한 해제 (예: Free는 월 N장)
+  - 카드 뷰/클릭 통계 차트
+- 템플릿 마켓
+  - 디자이너/크리에이터가 자신만의 카드 템플릿을 제출/판매하는 구조까지 확장 가능
+- 협업
+  - 팀/워크스페이스 단위로 카드 공유 및 에디팅
+
+---
+
+## 9. 구현 시 상세 원칙
+
+1. **항상 FSD 규칙을 우선한다.**
+   - `app`은 라우팅과 페이지 조합만 담당하고, 로직/상태/UI 컴포넌트는 `src` FSD 구조로 내린다.
+2. **타입 우선 설계**
+   - Firestore 모델, Feed 엔티티, User 엔티티 타입을 먼저 정의하고, 그 타입에 맞춰 API/컴포넌트를 만든다.
+3. **디자인**
+   - Tailwind로 풍성하지만 과하지 않은 UI를 구성한다.
+   - 카드 미리보기는 실제 공유될 모습을 최대한 그대로 반영한다.
+4. **성능**
+   - React Compiler에 맞는 “자연스러운 코드” 스타일을 유지한다.
+   - 불필요한 메모이제이션은 피하고, 데이터 구조/쿼리 설계로 성능을 확보한다.
+
+---
+
+## 10. 당신이 도와야 할 것
+
+이 프롬프트를 기반으로, 당신은 다음을 특히 잘해야 한다.
+
+1. **FSD에 맞는 폴더/파일 구조 제안**
+2. **Feed/User 엔티티 타입 설계**
+3. **Next.js App Router + Firebase 연동 코드 작성**
+4. **Tailwind 기반 카드 템플릿 UI 구현**
+5. **MVP 범위 내에서 단계별로 구현 순서/태스크 쪼개기**
+6. 필요 시, 서비스 이름/카피/텍스트도 자연스럽게 제안
+
+항상:
+- TypeScript를 사용하고,
+- 제공된 코드 스타일/디자인 가이드를 지키고,
+- FSD 계층 의존성 규칙을 위반하지 않는 방향으로 제안/구현한다.
