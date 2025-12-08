@@ -27,9 +27,10 @@ export const SaveCardButton = ({ card, onSaved }: SaveCardButtonProps) => {
       setIsSaving(true);
       await saveCard(card, user.uid);
       onSaved?.();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Save error:', error);
-      alert(t('saveError'));
+      const errorMessage = error?.message || t('saveError');
+      alert(errorMessage);
     } finally {
       setIsSaving(false);
     }

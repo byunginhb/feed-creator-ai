@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Card } from '@/src/entities/card/model/types';
-import { ModernTemplate } from '@/src/entities/card/ui/templates/ModernTemplate';
-import { useTranslations } from 'next-intl';
-import { GeneratingAnimation } from '@/src/features/card-create/ui/GeneratingAnimation';
-import { useEffect, useState } from 'react';
+import { Card } from "@/src/entities/card/model/types";
+import { ModernTemplate } from "@/src/entities/card/ui/templates/ModernTemplate";
+import { useTranslations } from "next-intl";
+import { GeneratingAnimation } from "@/src/features/card-create/ui/GeneratingAnimation";
+import { useEffect, useState } from "react";
 
 interface CardPreviewProps {
   card: Card | null;
@@ -12,8 +12,12 @@ interface CardPreviewProps {
   progress?: number;
 }
 
-export const CardPreview = ({ card, isLoading, progress }: CardPreviewProps) => {
-  const t = useTranslations('card');
+export const CardPreview = ({
+  card,
+  isLoading,
+  progress,
+}: CardPreviewProps) => {
+  const t = useTranslations("card");
   const [showCard, setShowCard] = useState(false);
   const [animationProgress, setAnimationProgress] = useState(0);
 
@@ -30,7 +34,7 @@ export const CardPreview = ({ card, isLoading, progress }: CardPreviewProps) => 
           }
           return prev + Math.random() * 10;
         });
-      }, 500);
+      }, 800);
       return () => clearInterval(interval);
     } else if (card) {
       setAnimationProgress(100);
@@ -50,8 +54,8 @@ export const CardPreview = ({ card, isLoading, progress }: CardPreviewProps) => 
         {/* Subtle background animation */}
         <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-violet-600/5 animate-pulse" />
         <div className="relative z-10">
-          <p className="text-lg font-medium">{t('noCardGenerated')}</p>
-          <p className="text-xs mt-2 opacity-50">{t('enterUrlToStart')}</p>
+          <p className="text-lg font-medium">{t("noCardGenerated")}</p>
+          <p className="text-xs mt-2 opacity-50">{t("enterUrlToStart")}</p>
         </div>
       </div>
     );
@@ -59,9 +63,9 @@ export const CardPreview = ({ card, isLoading, progress }: CardPreviewProps) => 
 
   // Card reveal animation
   return (
-    <div 
+    <div
       className={`w-full transition-all duration-700 ${
-        showCard ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+        showCard ? "opacity-100 scale-100" : "opacity-0 scale-95"
       }`}
     >
       <div className="relative">
@@ -70,7 +74,7 @@ export const CardPreview = ({ card, isLoading, progress }: CardPreviewProps) => 
         <div className="relative">
           <ModernTemplate card={card} />
         </div>
-        
+
         {/* Success particles */}
         {showCard && (
           <div className="absolute inset-0 pointer-events-none">
@@ -79,8 +83,8 @@ export const CardPreview = ({ card, isLoading, progress }: CardPreviewProps) => 
                 key={i}
                 className="absolute w-2 h-2 bg-primary rounded-full animate-success-particle"
                 style={{
-                  left: '50%',
-                  top: '50%',
+                  left: "50%",
+                  top: "50%",
                   animationDelay: `${i * 0.1}s`,
                 }}
               />
@@ -105,9 +109,10 @@ export const CardPreview = ({ card, isLoading, progress }: CardPreviewProps) => 
           }
           100% {
             transform: translate(
-              calc(-50% + ${Math.random() * 200 - 100}px),
-              calc(-50% + ${Math.random() * 200 - 100}px)
-            ) scale(1) rotate(360deg);
+                calc(-50% + ${Math.random() * 200 - 100}px),
+                calc(-50% + ${Math.random() * 200 - 100}px)
+              )
+              scale(1) rotate(360deg);
             opacity: 0;
           }
         }
