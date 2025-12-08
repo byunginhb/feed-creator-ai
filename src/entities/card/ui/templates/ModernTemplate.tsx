@@ -1,5 +1,5 @@
-import { Card } from '@/src/entities/card/model/types';
-import { cn } from '@/src/shared/lib/utils';
+import { Card } from "@/src/entities/card/model/types";
+import { cn } from "@/src/shared/lib/utils";
 
 interface TemplateProps {
   card: Card;
@@ -8,10 +8,10 @@ interface TemplateProps {
 
 export const ModernTemplate = ({ card, className }: TemplateProps) => {
   return (
-    <div 
+    <div
       id="card-preview"
       className={cn(
-        "relative w-full aspect-[9/16] bg-gradient-to-br from-slate-900 to-slate-950 text-white p-8 flex flex-col justify-between shadow-2xl rounded-xl border border-white/5",
+        "relative w-full aspect-[9/16] bg-linear-to-br from-slate-900 to-slate-950 text-white p-8 flex flex-col justify-between shadow-2xl rounded-xl border border-white/5",
         className
       )}
     >
@@ -19,12 +19,12 @@ export const ModernTemplate = ({ card, className }: TemplateProps) => {
       {card.backgroundImage && (
         <div className="absolute inset-0 z-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img 
-            src={card.backgroundImage} 
-            alt="Card Background" 
+          <img
+            src={card.backgroundImage}
+            alt="Card Background"
             className="w-full h-full object-cover opacity-100"
           />
-          <div className="absolute opacity-40 inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-slate-900/40" />
+          <div className="absolute opacity-40 inset-0 bg-linear-to-t from-slate-900 via-slate-900/80 to-slate-900/40" />
         </div>
       )}
 
@@ -39,11 +39,13 @@ export const ModernTemplate = ({ card, className }: TemplateProps) => {
       {/* Header */}
       <div className="relative z-10">
         <div className="flex items-center gap-2 mb-6 opacity-70">
-           {/* Domain hidden as per request */}
-           <span className="text-xs uppercase tracking-widest font-semibold">FeedCreator</span>
+          {/* Domain hidden as per request */}
+          <span className="text-xs uppercase tracking-widest font-semibold">
+            FeedCreator
+          </span>
         </div>
-        
-        <h1 className="text-3xl font-bold leading-tight tracking-tight mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70 drop-shadow-lg">
+
+        <h1 className="text-3xl font-bold leading-tight tracking-tight mb-2 bg-clip-text text-transparent bg-linear-to-r from-white to-white/70 drop-shadow-lg">
           {card.title}
         </h1>
       </div>

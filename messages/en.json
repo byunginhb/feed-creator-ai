@@ -1,0 +1,127 @@
+{
+  "common": {
+    "home": "Home",
+    "studio": "Studio",
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "logout": "Logout",
+    "save": "Save",
+    "download": "Download",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cards": "cards"
+  },
+  "auth": {
+    "signInWithGoogle": "Sign in with Google",
+    "signingIn": "Signing in...",
+    "signedIn": "Signed in",
+    "signOut": "Sign out",
+    "signingOut": "Signing out...",
+    "notSignedIn": "Sign in required"
+  },
+  "card": {
+    "createNew": "Create New",
+    "startFromLink": "Start from any link",
+    "generateMagicCard": "Generate Magic Card",
+    "takesTime": "Takes about 10-20 seconds to read and summarize.",
+    "noCardGenerated": "No card generated yet",
+    "enterUrlToStart": "Enter a URL or text to get started",
+    "generatingMagic": "Generating magic...",
+    "editCard": "Edit Card",
+    "editorOptions": "Editor options will appear here (Tone, Template, Text).",
+    "saveCard": "Save Card",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "saveError": "Failed to save card",
+    "downloadCard": "Download Card",
+    "downloading": "Downloading...",
+    "downloadError": "Failed to download card",
+    "myCards": "My Cards",
+    "noCards": "No saved cards",
+    "createFirstCard": "Create your first card"
+  },
+  "header": {
+    "language": "Language",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "errors": {
+    "failedToGenerate": "Failed to generate card. Please try again.",
+    "failedToSave": "Failed to save card.",
+    "failedToLoad": "Failed to load cards.",
+    "networkError": "Network error occurred."
+  },
+  "landing": {
+    "hero": {
+      "badge": "AI-Powered Content Repurposing",
+      "title": "Turn URLs into Viral Briefs",
+      "description": "Instantly generate beautiful, shareable summary cards from any article, video, or text. Perfect for newsletters, threads, and social feeds.",
+      "cta": "Create for Free",
+      "learnMore": "Learn more"
+    },
+    "features": {
+      "title": "Powerful Features",
+      "subtitle": "Make content creation easier and faster",
+      "instant": {
+        "title": "Instant Generation",
+        "description": "Just paste a URL and get a finished card in seconds"
+      },
+      "ai": {
+        "title": "AI Summarization",
+        "description": "Automatically extract and summarize key content using the latest AI technology"
+      },
+      "download": {
+        "title": "Image Download",
+        "description": "Download generated cards as high-quality images for use anywhere"
+      },
+      "share": {
+        "title": "Easy Sharing",
+        "description": "Share directly to social media, newsletters, and blogs"
+      },
+      "templates": {
+        "title": "Beautiful Templates",
+        "description": "Create cards that match your brand with various design templates"
+      },
+      "multilingual": {
+        "title": "Multilingual Support",
+        "description": "Support Korean and English to reach users worldwide"
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Get started in 3 simple steps",
+      "step": "Step",
+      "step1": {
+        "title": "Paste URL",
+        "description": "Paste the URL of an article or video"
+      },
+      "step2": {
+        "title": "AI Processing",
+        "description": "AI analyzes content and generates a summary card"
+      },
+      "step3": {
+        "title": "Download & Share",
+        "description": "Download the finished card or share it immediately"
+      },
+      "cta": "Get Started Now"
+    },
+    "examples": {
+      "title": "Example Cards",
+      "subtitle": "Check out examples of actually generated cards"
+    },
+    "cta": {
+      "title": "Get Started Today",
+      "description": "Create a free account and generate your first card",
+      "button": "Get Started for Free"
+    }
+  }
+}
+

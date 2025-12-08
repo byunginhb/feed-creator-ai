@@ -30,6 +30,7 @@ interface GenerateResponse {
   tone: string;
   backgroundImage?: string | null;
   error?: string;
+  details?: string;
 }
 
 export const generateCard = async (url: string): Promise<Card> => {
@@ -42,7 +43,9 @@ export const generateCard = async (url: string): Promise<Card> => {
   const data: GenerateResponse = await response.json();
 
   if (!response.ok || data.error) {
-    throw new Error(data.error || 'Failed to generate card');
+    const error = new Error(data.error || 'Failed to generate card') as Error & { details?: string };
+    error.details = data.details;
+    throw error;
   }
   
   return {
