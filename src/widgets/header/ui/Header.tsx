@@ -56,7 +56,7 @@ export const Header = () => {
       <div className="container flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <span className="text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-primary to-violet-600">
+          <span className="text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-primary to-accent">
             FeedCreator
           </span>
         </div>
@@ -200,4 +200,3 @@ export const Header = () => {
     </header>
   );
 };
-

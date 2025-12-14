@@ -45,11 +45,11 @@ export const ModernTemplate = ({ card, className, previewId }: TemplateProps) =>
         <>
           <div
             className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none"
-            style={{ backgroundColor: 'rgba(127,34,254,0.20)' }}
+            style={{ backgroundColor: 'rgba(245,158,11,0.18)' }}
           />
           <div
             className="absolute bottom-0 left-0 w-64 h-64 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none"
-            style={{ backgroundColor: 'rgba(99,102,241,0.16)' }}
+            style={{ backgroundColor: 'rgba(249,115,22,0.14)' }}
           />
         </>
       )}

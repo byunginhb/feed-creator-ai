@@ -27,12 +27,12 @@ const HERO_ORBS = [
   },
   {
     className:
-      'absolute top-10 -right-28 h-[26rem] w-[26rem] rounded-full bg-violet-600/20 blur-[120px] animate-float-slow motion-reduce:animate-none',
+      'absolute top-10 -right-28 h-[26rem] w-[26rem] rounded-full bg-accent/18 blur-[120px] animate-float-slow motion-reduce:animate-none',
     style: { animationDelay: '1.2s' },
   },
   {
     className:
-      'absolute bottom-[-10rem] left-[35%] h-[34rem] w-[34rem] rounded-full bg-indigo-500/15 blur-[140px] animate-float-slower motion-reduce:animate-none',
+      'absolute bottom-[-10rem] left-[35%] h-[34rem] w-[34rem] rounded-full bg-rose-500/12 blur-[140px] animate-float-slower motion-reduce:animate-none',
     style: { animationDelay: '0.6s' },
   },
 ] as const;
@@ -216,8 +216,8 @@ export const LandingPage = () => {
                 </div>
 
                 <h1 className="mt-6 text-4xl sm:text-6xl font-extrabold tracking-tight text-foreground">
-                  <span className="block">
-                    <span className="bg-linear-to-r from-foreground via-primary to-violet-600 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient-shift motion-reduce:animate-none">
+                    <span className="block">
+                    <span className="bg-linear-to-r from-foreground via-primary to-accent bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient-shift motion-reduce:animate-none">
                       {t('hero.title')}
                     </span>
                   </span>
@@ -230,7 +230,7 @@ export const LandingPage = () => {
                 <div className="mt-8 flex flex-col sm:flex-row gap-3">
                   <Link href="/studio">
                     <div className="relative">
-                      <div className="absolute -inset-1 rounded-2xl bg-linear-to-r from-primary/40 via-violet-600/40 to-primary/40 blur opacity-60 animate-gradient-border motion-reduce:animate-none" />
+                      <div className="absolute -inset-1 rounded-2xl bg-linear-to-r from-primary/40 via-accent/40 to-primary/40 blur opacity-60 animate-gradient-border motion-reduce:animate-none" />
                       <Button
                         size="lg"
                         className="relative gap-2 rounded-2xl px-6 shadow-xl shadow-primary/15"
@@ -280,7 +280,7 @@ export const LandingPage = () => {
 
               <div className="lg:col-span-6">
                 <div className="relative">
-                  <div className="absolute -inset-1 rounded-[2rem] bg-[conic-gradient(from_180deg_at_50%_50%,rgba(99,102,241,0.0),rgba(99,102,241,0.45),rgba(168,85,247,0.45),rgba(99,102,241,0.0))] blur-md opacity-60 animate-rotate-slow motion-reduce:animate-none" />
+                  <div className="absolute -inset-1 rounded-[2rem] bg-[conic-gradient(from_180deg_at_50%_50%,rgba(245,158,11,0.0),rgba(245,158,11,0.42),rgba(249,115,22,0.42),rgba(245,158,11,0.0))] blur-md opacity-60 animate-rotate-slow motion-reduce:animate-none" />
                   <div className="relative rounded-[2rem] border border-border/60 bg-card/20 backdrop-blur-md p-4 sm:p-5 shadow-2xl shadow-black/10">
                     <div className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_20%_10%,rgba(255,255,255,0.12),transparent_42%)] pointer-events-none" />
                     <div className="absolute inset-0 rounded-[2rem] ring-1 ring-white/5 pointer-events-none" />
@@ -313,7 +313,7 @@ export const LandingPage = () => {
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
                     <div className="rounded-2xl border border-border/60 bg-background/40 p-4 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(99,102,241,0.10),transparent_45%)] pointer-events-none" />
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(245,158,11,0.12),transparent_45%)] pointer-events-none" />
                       <div className="flex items-center justify-between gap-2">
                         <div className="text-xs uppercase tracking-widest text-muted-foreground">
                           {t('homeDemo.inputLabel')}
@@ -339,7 +339,7 @@ export const LandingPage = () => {
                     </div>
 
                     <div className="rounded-2xl border border-border/60 bg-background/30 p-3 relative overflow-hidden">
-                      <div className="absolute -inset-10 bg-[radial-gradient(circle_at_50%_20%,rgba(168,85,247,0.18),transparent_55%)] pointer-events-none" />
+                      <div className="absolute -inset-10 bg-[radial-gradient(circle_at_50%_20%,rgba(249,115,22,0.18),transparent_55%)] pointer-events-none" />
                       <div className="relative transition-transform duration-500 ease-out will-change-transform hover:scale-[1.02]">
                         <ModernTemplate card={demoCard} className="shadow-none" />
                       </div>
@@ -373,8 +373,8 @@ export const LandingPage = () => {
                   key={f.title}
                   className="group rounded-3xl border border-border/60 bg-card/20 backdrop-blur-sm p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10 relative overflow-hidden"
                 >
-                  <div className="absolute inset-0 bg-linear-to-br from-primary/0 via-primary/10 to-violet-600/0 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
-                  <div className="absolute -inset-24 bg-[radial-gradient(circle_at_20%_10%,rgba(99,102,241,0.14),transparent_45%)] opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
+                  <div className="absolute inset-0 bg-linear-to-br from-primary/0 via-primary/10 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
+                  <div className="absolute -inset-24 bg-[radial-gradient(circle_at_20%_10%,rgba(250,204,21,0.10),transparent_45%)] opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
                   <div className="flex items-center gap-3">
                     <div className="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-primary/10 text-primary border border-primary/20 group-hover:scale-110 transition-transform">
                       <Icon className="w-5 h-5" />
@@ -472,7 +472,7 @@ export const LandingPage = () => {
       <section className="py-20 sm:py-28 border-t border-border/60">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="rounded-3xl border border-border/60 bg-card/20 p-10 sm:p-12 relative overflow-hidden">
-            <div className="absolute inset-0 bg-linear-to-br from-primary/20 via-violet-600/15 to-primary/20 animate-gradient-shift motion-reduce:animate-none" />
+            <div className="absolute inset-0 bg-linear-to-br from-primary/18 via-accent/14 to-primary/18 animate-gradient-shift motion-reduce:animate-none" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.10),transparent_55%)]" />
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_85%_60%_at_50%_50%,#000_65%,transparent_110%)]" />
             <div className="relative">
@@ -486,7 +486,7 @@ export const LandingPage = () => {
               <div className="mt-7">
                 <Link href="/studio">
                   <div className="relative inline-block">
-                    <div className="absolute -inset-1 rounded-2xl bg-linear-to-r from-primary/40 via-violet-600/40 to-primary/40 blur opacity-70 animate-gradient-border motion-reduce:animate-none" />
+                    <div className="absolute -inset-1 rounded-2xl bg-linear-to-r from-primary/40 via-accent/40 to-primary/40 blur opacity-70 animate-gradient-border motion-reduce:animate-none" />
                     <Button size="lg" className="relative gap-2 rounded-2xl px-6">
                       {t('cta.button')}
                       <ArrowRight className="w-4 h-4" />

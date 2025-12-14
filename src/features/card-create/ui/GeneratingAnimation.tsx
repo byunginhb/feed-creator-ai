@@ -15,9 +15,7 @@ const steps = [
   "마무리 중...",
 ];
 
-export const GeneratingAnimation = ({
-  progress = 0,
-}: GeneratingAnimationProps) => {
+export const GeneratingAnimation = ({ progress = 0 }: GeneratingAnimationProps) => {
   const t = useTranslations("card");
   const [currentStep, setCurrentStep] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
@@ -46,12 +44,12 @@ export const GeneratingAnimation = ({
   }, [progress, currentStep]);
 
   return (
-    <div className="relative w-full aspect-[9/16] bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 rounded-xl border-2 border-primary/50 overflow-hidden">
+    <div className="relative w-full aspect-[9/16] bg-linear-to-br from-[#1b120c] via-[#22160f] to-[#120b07] rounded-xl border-2 border-primary/30 overflow-hidden">
       {/* Animated background */}
       <div className="absolute inset-0">
         {/* Gradient orbs */}
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/30 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-violet-600/30 rounded-full blur-[100px] animate-pulse delay-1000" />
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-accent/20 rounded-full blur-[100px] animate-pulse delay-1000" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse delay-500" />
 
         {/* Grid pattern */}
@@ -92,20 +90,20 @@ export const GeneratingAnimation = ({
             {displayedText}
             <span className="animate-blink">|</span>
           </h3>
-          <p className="text-sm text-slate-400">{t("generatingMagic")}</p>
+          <p className="text-sm text-muted-foreground">{t("generatingMagic")}</p>
         </div>
 
         {/* Progress bar */}
         <div className="w-full max-w-xs mb-6">
-          <div className="h-2 bg-slate-700/50 rounded-full overflow-hidden">
+          <div className="h-2 bg-black/30 rounded-full overflow-hidden">
             <div
-              className="h-full bg-linear-to-r from-primary via-violet-600 to-primary rounded-full transition-all duration-300 relative overflow-hidden"
+              className="h-full bg-linear-to-r from-primary via-accent to-primary rounded-full transition-all duration-300 relative overflow-hidden"
               style={{ width: `${progress}%` }}
             >
               <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
             </div>
           </div>
-          <div className="text-xs text-slate-400 text-center mt-2">
+          <div className="text-xs text-muted-foreground text-center mt-2">
             {Math.round(progress)}%
           </div>
         </div>
@@ -129,13 +127,13 @@ export const GeneratingAnimation = ({
           <Sparkles className="w-6 h-6 text-primary/50" />
         </div>
         <div className="absolute top-8 right-8 animate-float-icon delay-500">
-          <Zap className="w-6 h-6 text-violet-600/50" />
+          <Zap className="w-6 h-6 text-accent/50" />
         </div>
         <div className="absolute bottom-8 left-8 animate-float-icon delay-1000">
           <Stars className="w-6 h-6 text-primary/50" />
         </div>
         <div className="absolute bottom-8 right-8 animate-float-icon delay-1500">
-          <Sparkles className="w-6 h-6 text-violet-600/50" />
+          <Sparkles className="w-6 h-6 text-accent/50" />
         </div>
       </div>
 

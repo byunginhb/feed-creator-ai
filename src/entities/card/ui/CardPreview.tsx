@@ -54,7 +54,7 @@ export const CardPreview = ({
     return (
       <div className="w-full aspect-[9/16] bg-card/50 rounded-xl border-2 border-dashed border-border/50 flex flex-col items-center justify-center text-muted-foreground p-8 text-center relative overflow-hidden">
         {/* Subtle background animation */}
-        <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-violet-600/5 animate-pulse" />
+        <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-accent/5 animate-pulse" />
         <div className="relative z-10">
           <p className="text-lg font-medium">{t("noCardGenerated")}</p>
           <p className="text-xs mt-2 opacity-50">{t("enterUrlToStart")}</p>
@@ -73,7 +73,7 @@ export const CardPreview = ({
     >
       <div className="relative">
         {/* Glow effect on card */}
-        <div className="absolute -inset-2 bg-linear-to-r from-primary/20 to-violet-600/20 rounded-xl blur-xl opacity-0 animate-fade-in" />
+        <div className="absolute -inset-2 bg-linear-to-r from-primary/20 to-accent/20 rounded-xl blur-xl opacity-0 animate-fade-in" />
         <div className="relative">
           <ModernTemplate card={card} previewId={resolvedPreviewId} />
         </div>

@@ -2,64 +2,64 @@
 
 :root {
   /* Dark Theme Default */
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
+  --background: 28 22% 10%;
+  --foreground: 40 35% 96%;
 
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
+  --card: 28 20% 12%;
+  --card-foreground: 40 35% 96%;
 
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
+  --popover: 28 20% 12%;
+  --popover-foreground: 40 35% 96%;
 
-  --primary: 263.4 70% 50.4%;
-  --primary-foreground: 210 40% 98%;
+  --primary: 24 70% 56%;
+  --primary-foreground: 30 60% 98%;
 
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
+  --secondary: 30 14% 18%;
+  --secondary-foreground: 40 35% 96%;
 
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
+  --muted: 28 14% 18%;
+  --muted-foreground: 34 16% 72%;
 
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
+  --accent: 34 85% 60%;
+  --accent-foreground: 28 22% 10%;
 
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 263.4 70% 50.4%;
+  --border: 28 12% 22%;
+  --input: 28 12% 22%;
+  --ring: 24 70% 56%;
 }
 
 .light {
   /* Light Theme */
-  --background: 0 0% 100%;
-  --foreground: 222.2 47.4% 11.2%;
+  --background: 36 45% 96%;
+  --foreground: 24 18% 18%;
 
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 47.4% 11.2%;
+  --card: 36 38% 98%;
+  --card-foreground: 24 18% 18%;
 
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 47.4% 11.2%;
+  --popover: 36 38% 98%;
+  --popover-foreground: 24 18% 18%;
 
-  --primary: 263.4 70% 50.4%;
-  --primary-foreground: 210 40% 98%;
+  --primary: 20 72% 52%;
+  --primary-foreground: 36 45% 96%;
 
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 36 24% 92%;
+  --secondary-foreground: 24 18% 18%;
 
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
+  --muted: 36 20% 93%;
+  --muted-foreground: 24 10% 42%;
 
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
+  --accent: 34 85% 58%;
+  --accent-foreground: 24 18% 18%;
 
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 263.4 70% 50.4%;
+  --border: 32 18% 84%;
+  --input: 32 18% 84%;
+  --ring: 20 72% 52%;
 }
 
 @theme inline {
@@ -95,7 +95,7 @@
 body {
   @apply bg-background text-foreground antialiased;
   background-image: 
-    radial-gradient(at 0% 0%, hsl(var(--primary) / 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, hsl(var(--primary) / 0.1) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, hsl(var(--primary) / 0.18) 0px, transparent 55%),
+    radial-gradient(at 100% 100%, hsl(var(--accent) / 0.14) 0px, transparent 58%);
   background-attachment: fixed;
 }

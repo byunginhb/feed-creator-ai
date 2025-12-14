@@ -79,7 +79,7 @@ export const UrlInputForm = ({
       <div className="space-y-2">
         <label
           htmlFor="url-input"
-          className="text-sm font-medium text-slate-300"
+          className="text-sm font-medium text-muted-foreground"
         >
           Content Source URL
         </label>
@@ -99,14 +99,14 @@ export const UrlInputForm = ({
 
       <Button
         type="submit"
-        className="group relative w-full bg-linear-to-r from-primary to-violet-600 hover:opacity-90 transition-all duration-300 overflow-hidden"
+        className="group relative w-full bg-linear-to-r from-primary to-accent hover:opacity-90 transition-all duration-300 overflow-hidden"
         size="lg"
         isLoading={isLoading}
         disabled={isLoading}
       >
         {/* Animated background */}
         {isLoading && (
-          <div className="absolute inset-0 bg-linear-to-r from-primary via-violet-600 to-primary bg-[length:200%_100%] animate-gradient-x" />
+          <div className="absolute inset-0 bg-linear-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-gradient-x" />
         )}
 
         {/* Sparkle particles */}

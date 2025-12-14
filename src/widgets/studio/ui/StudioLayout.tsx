@@ -31,10 +31,10 @@ export const StudioLayout = () => {
       {/* Left Panel: Controls */}
       <div className="w-full lg:w-1/3 flex flex-col gap-6">
         {/* Create Section */}
-        <section className="bg-card/30 border border-white/5 rounded-2xl p-6 backdrop-blur-xl relative overflow-hidden">
+        <section className="bg-card/40 border border-border/60 rounded-2xl p-6 backdrop-blur-xl relative overflow-hidden">
           {/* Animated background when generating */}
           {isGenerating && (
-            <div className="absolute inset-0 bg-linear-to-r from-primary/10 via-violet-600/10 to-primary/10 animate-gradient-shift" />
+            <div className="absolute inset-0 bg-linear-to-r from-primary/10 via-orange-500/10 to-primary/10 animate-gradient-shift" />
           )}
           <div className="relative z-10">
             <div className="mb-4">
@@ -54,14 +54,14 @@ export const StudioLayout = () => {
 
         {/* Edit Section */}
         {activeCard && (
-          <section className="bg-card/30 border border-white/5 rounded-2xl p-6 backdrop-blur-xl flex-1 relative overflow-hidden animate-in fade-in slide-in-from-bottom-4">
+          <section className="bg-card/40 border border-border/60 rounded-2xl p-6 backdrop-blur-xl flex-1 relative overflow-hidden animate-in fade-in slide-in-from-bottom-4">
             {/* Success glow effect */}
-            <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-violet-600/10 opacity-0 animate-fade-in-success" />
+            <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-orange-500/10 opacity-0 animate-fade-in-success" />
 
             <div className="relative z-10">
               <div className="mb-4 flex items-center gap-2">
                 <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                <h2 className="text-lg font-medium text-slate-200">
+                <h2 className="text-lg font-medium text-foreground">
                   {t("editCard")}
                 </h2>
               </div>
@@ -78,18 +78,18 @@ export const StudioLayout = () => {
       </div>
 
       {/* Right Panel: Preview */}
-      <div className="w-full lg:w-2/3 flex items-center justify-center bg-black/20 rounded-3xl border border-white/5 p-8 lg:p-12 relative overflow-hidden">
+      <div className="w-full lg:w-2/3 flex items-center justify-center bg-card/30 rounded-3xl border border-border/60 p-8 lg:p-12 relative overflow-hidden">
         {/* Animated background when generating */}
         {isGenerating && (
           <>
-            <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-violet-600/5 to-primary/5 animate-pulse" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent_70%)]" />
+            <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-orange-500/5 to-primary/5 animate-pulse" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(245,158,11,0.10),transparent_70%)]" />
           </>
         )}
 
         {/* Grid Background */}
         <div
-          className={`absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none transition-opacity duration-500 ${
+          className={`absolute inset-0 bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none transition-opacity duration-500 ${
             isGenerating ? "opacity-50" : "opacity-100"
           }`}
         />

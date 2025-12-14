@@ -32,7 +32,7 @@ export default async function RootLayout({
           inter.variable
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <NextIntlClientProvider messages={messages}>
             {children}
             <AppToaster />
