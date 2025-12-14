@@ -7,6 +7,7 @@ import { Button } from '@/src/shared/ui/button/Button';
 import { Card } from '@/src/entities/card/model/types';
 import { saveCard } from '../api/cardSaveApi';
 import { Save } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface SaveCardButtonProps {
   card: Card | null;
@@ -27,10 +28,11 @@ export const SaveCardButton = ({ card, onSaved }: SaveCardButtonProps) => {
       setIsSaving(true);
       await saveCard(card, user.uid);
       onSaved?.();
+      toast.success(t('saved'));
     } catch (error: any) {
       console.error('Save error:', error);
       const errorMessage = error?.message || t('saveError');
-      alert(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsSaving(false);
     }
@@ -65,4 +67,3 @@ export const SaveCardButton = ({ card, onSaved }: SaveCardButtonProps) => {
     </Button>
   );
 };
-

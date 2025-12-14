@@ -41,6 +41,7 @@
     "saveError": "Failed to save card",
     "downloadCard": "Download Card",
     "downloading": "Downloading...",
+    "downloadSuccess": "Saved card image",
     "downloadError": "Failed to download card",
     "myCards": "My Cards",
     "noCards": "No saved cards",
@@ -61,11 +62,31 @@
   },
   "landing": {
     "hero": {
-      "badge": "AI-Powered Content Repurposing",
-      "title": "Turn URLs into Viral Briefs",
-      "description": "Instantly generate beautiful, shareable summary cards from any article, video, or text. Perfect for newsletters, threads, and social feeds.",
-      "cta": "Create for Free",
-      "learnMore": "Learn more"
+      "badge": "Feed-ready summary cards",
+      "title": "One link in. One card out.",
+      "description": "Turn articles, videos, or notes into a clean, shareable card you can save, download, and reuse.",
+      "cta": "Create a card",
+      "learnMore": "See features"
+    },
+    "homeBullets": {
+      "one": "10–20s generation",
+      "two": "PNG export",
+      "three": "Save cards"
+    },
+    "homeDemo": {
+      "title": "Preview",
+      "article": "Article",
+      "video": "Video",
+      "thread": "Notes",
+      "inputLabel": "Input",
+      "sampleText": "Paste text you want to condense…",
+      "outputHint": "Output",
+      "outputDescription": "Turns title · summary · hook into a single card that’s ready to share."
+    },
+    "homeTrust": {
+      "one": "Try without signing up",
+      "two": "Local download",
+      "three": "Dark/light support"
     },
     "features": {
       "title": "Powerful Features",
@@ -124,4 +145,3 @@
     }
   }
 }
-

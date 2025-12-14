@@ -1,5 +1,5 @@
 import { Card } from '@/src/entities/card/model/types';
-import { db } from '@/src/shared/lib/firebase';
+import { db, storage } from '@/src/shared/lib/firebase';
 import { 
   collection, 
   addDoc, 
@@ -9,8 +9,126 @@ import {
   orderBy,
   Timestamp 
 } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 const CARDS_COLLECTION = 'cards';
+
+const isDataImageUrl = (value: string) =>
+  value.startsWith('data:image/') && value.includes('base64,');
+
+const estimateDataUrlBytes = (dataUrl: string) => {
+  const idx = dataUrl.indexOf('base64,');
+  if (idx === -1) return dataUrl.length;
+  const base64 = dataUrl.slice(idx + 'base64,'.length);
+  const padding = base64.endsWith('==') ? 2 : base64.endsWith('=') ? 1 : 0;
+  return Math.floor((base64.length * 3) / 4) - padding;
+};
+
+const safeUploadId = () => {
+  const cryptoObj = (globalThis as unknown as { crypto?: any }).crypto;
+  if (cryptoObj?.randomUUID) {
+    return cryptoObj.randomUUID();
+  }
+  if (cryptoObj?.getRandomValues) {
+    const bytes = new Uint8Array(16);
+    cryptoObj.getRandomValues(bytes);
+    return Array.from(bytes, (b: number) => b.toString(16).padStart(2, '0')).join('');
+  }
+  return `${Date.now()}`;
+};
+
+const withTimeout = async <T,>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  errorMessage: string
+): Promise<T> => {
+  return await new Promise<T>((resolve, reject) => {
+    const id = setTimeout(() => reject(new Error(errorMessage)), timeoutMs);
+    promise
+      .then((value) => {
+        clearTimeout(id);
+        resolve(value);
+      })
+      .catch((err) => {
+        clearTimeout(id);
+        reject(err);
+      });
+  });
+};
+
+const compressDataImageUrlIfPossible = async (dataUrl: string): Promise<string> => {
+  if (typeof window === 'undefined') return dataUrl;
+  if (!isDataImageUrl(dataUrl)) return dataUrl;
+
+  const bytes = estimateDataUrlBytes(dataUrl);
+  if (bytes < 450 * 1024) return dataUrl;
+
+  try {
+    const img = new Image();
+    img.decoding = 'async';
+    img.src = dataUrl;
+    await new Promise<void>((resolve, reject) => {
+      img.onload = () => resolve();
+      img.onerror = () => reject(new Error('Failed to load data url image'));
+    });
+
+    const maxWidth = 1080;
+    const scale = img.width > maxWidth ? maxWidth / img.width : 1;
+    const width = Math.max(1, Math.round(img.width * scale));
+    const height = Math.max(1, Math.round(img.height * scale));
+
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return dataUrl;
+    ctx.drawImage(img, 0, 0, width, height);
+
+    const jpeg = canvas.toDataURL('image/jpeg', 0.86);
+    return jpeg || dataUrl;
+  } catch {
+    return dataUrl;
+  }
+};
+
+const uploadBackgroundImageIfNeeded = async (
+  backgroundImage: string | undefined,
+  userId: string
+): Promise<string | undefined> => {
+  if (!backgroundImage) return undefined;
+  if (!isDataImageUrl(backgroundImage)) return backgroundImage;
+  const originalBytes = estimateDataUrlBytes(backgroundImage);
+  if (originalBytes > 6 * 1024 * 1024) {
+    return undefined;
+  }
+  const dataUrl = await compressDataImageUrlIfPossible(backgroundImage);
+  const bytes = estimateDataUrlBytes(dataUrl);
+
+  try {
+    const mime = dataUrl.startsWith('data:image/png') ? 'image/png' : 'image/jpeg';
+    const ext = mime === 'image/png' ? 'png' : 'jpg';
+    const objectRef = ref(
+      storage,
+      `users/${userId}/card-backgrounds/${safeUploadId()}.${ext}`
+    );
+    await withTimeout(
+      uploadString(objectRef, dataUrl, 'data_url', {
+        contentType: mime,
+        cacheControl: 'public,max-age=31536000,immutable',
+      }),
+      20000,
+      'Background image upload timed out'
+    );
+    return await withTimeout(
+      getDownloadURL(objectRef),
+      15000,
+      'Failed to resolve background image URL'
+    );
+  } catch (e) {
+    console.error('Failed to upload backgroundImage, saving without it:', e);
+    return undefined;
+  }
+};
 
 export interface CardDocument {
   ownerId: string;
@@ -37,6 +155,11 @@ export const saveCard = async (card: Card, userId: string): Promise<string> => {
       throw new Error('카드 정보가 불완전합니다.');
     }
 
+    const backgroundImage = await uploadBackgroundImageIfNeeded(
+      card.backgroundImage,
+      userId
+    );
+
     const cardDoc: Omit<CardDocument, 'createdAt' | 'updatedAt'> = {
       ownerId: userId,
       title: card.title,
@@ -47,17 +170,21 @@ export const saveCard = async (card: Card, userId: string): Promise<string> => {
       sourceMeta: card.sourceMeta || undefined,
       tone: card.tone,
       templateId: card.templateId,
-      backgroundImage: card.backgroundImage || undefined,
+      backgroundImage,
       visibility: card.visibility,
       viewCount: card.viewCount || 0,
       shareCount: card.shareCount || 0,
     };
 
-    const docRef = await addDoc(collection(db, CARDS_COLLECTION), {
-      ...cardDoc,
-      createdAt: Timestamp.now(),
-      updatedAt: Timestamp.now(),
-    });
+    const docRef = await withTimeout(
+      addDoc(collection(db, CARDS_COLLECTION), {
+        ...cardDoc,
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now(),
+      }),
+      20000,
+      'Card save timed out'
+    );
 
     return docRef.id;
   } catch (error: any) {
@@ -139,4 +266,3 @@ export const getUserCards = async (userId: string): Promise<Card[]> => {
     throw new Error(errorMessage);
   }
 };
-

@@ -4,16 +4,21 @@ import { cn } from "@/src/shared/lib/utils";
 interface TemplateProps {
   card: Card;
   className?: string;
+  previewId?: string;
 }
 
-export const ModernTemplate = ({ card, className }: TemplateProps) => {
+export const ModernTemplate = ({ card, className, previewId }: TemplateProps) => {
   return (
     <div
-      id="card-preview"
+      id={previewId}
       className={cn(
-        "relative w-full aspect-[9/16] bg-linear-to-br from-slate-900 to-slate-950 text-white p-8 flex flex-col justify-between shadow-2xl rounded-xl border border-white/5",
+        "relative w-full aspect-[9/16] text-white p-8 flex flex-col justify-between shadow-2xl rounded-xl border border-[rgba(255,255,255,0.05)]",
         className
       )}
+      style={{
+        backgroundColor: '#05070d',
+        backgroundImage: 'linear-gradient(to bottom right, #0b1220, #05070d)',
+      }}
     >
       {/* Background Image (If available) */}
       {card.backgroundImage && (
@@ -22,17 +27,30 @@ export const ModernTemplate = ({ card, className }: TemplateProps) => {
           <img
             src={card.backgroundImage}
             alt="Card Background"
+            crossOrigin="anonymous"
             className="w-full h-full object-cover opacity-100"
           />
-          <div className="absolute opacity-40 inset-0 bg-linear-to-t from-slate-900 via-slate-900/80 to-slate-900/40" />
+          <div
+            className="absolute opacity-40 inset-0"
+            style={{
+              backgroundImage:
+                'linear-gradient(to top, rgba(5,7,13,1), rgba(5,7,13,0.8), rgba(5,7,13,0.4))',
+            }}
+          />
         </div>
       )}
 
       {/* Background decoration (Only if no image, or as subtle overlay) */}
       {!card.backgroundImage && (
         <>
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/20 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+          <div
+            className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none"
+            style={{ backgroundColor: 'rgba(127,34,254,0.20)' }}
+          />
+          <div
+            className="absolute bottom-0 left-0 w-64 h-64 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none"
+            style={{ backgroundColor: 'rgba(99,102,241,0.16)' }}
+          />
         </>
       )}
 
@@ -45,7 +63,7 @@ export const ModernTemplate = ({ card, className }: TemplateProps) => {
           </span>
         </div>
 
-        <h1 className="text-3xl font-bold leading-tight tracking-tight mb-2 bg-clip-text text-transparent bg-linear-to-r from-white to-white/70 drop-shadow-lg">
+        <h1 className="card-title text-3xl font-bold leading-tight tracking-tight mb-2 drop-shadow-lg">
           {card.title}
         </h1>
       </div>
@@ -53,18 +71,40 @@ export const ModernTemplate = ({ card, className }: TemplateProps) => {
       {/* Content */}
       <div className="relative z-10 flex-1 flex flex-col justify-center">
         <div className="space-y-4">
-          <p className="text-lg leading-relaxed text-slate-100 font-semibold whitespace-pre-wrap drop-shadow-md">
+          <p className="text-lg leading-relaxed text-[rgba(255,255,255,0.9)] font-semibold whitespace-pre-wrap drop-shadow-md">
             {card.summary}
           </p>
         </div>
       </div>
 
       {/* Footer / Hook */}
-      <div className="relative z-10 mt-8 pt-6 border-t border-white/10">
-        <p className="text-xl font-bold text-accent-foreground drop-shadow-md">
+      <div className="relative z-10 mt-8 pt-6 border-t border-[rgba(255,255,255,0.10)]">
+        <p className="text-xl font-bold text-white drop-shadow-md">
           "{card.hook}"
         </p>
       </div>
+
+      <style jsx>{`
+        .card-title {
+          background-image: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 1),
+            rgba(255, 255, 255, 0.7)
+          );
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          color: transparent;
+        }
+
+        [data-export-mode='true'] .card-title {
+          background-image: none !important;
+          -webkit-background-clip: initial !important;
+          background-clip: initial !important;
+          -webkit-text-fill-color: rgba(255, 255, 255, 0.92) !important;
+          color: rgba(255, 255, 255, 0.92) !important;
+        }
+      `}</style>
     </div>
   );
 };

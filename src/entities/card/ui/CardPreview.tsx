@@ -10,16 +10,19 @@ interface CardPreviewProps {
   card: Card | null;
   isLoading?: boolean;
   progress?: number;
+  previewId?: string;
 }
 
 export const CardPreview = ({
   card,
   isLoading,
   progress,
+  previewId,
 }: CardPreviewProps) => {
   const t = useTranslations("card");
-  const [showCard, setShowCard] = useState(false);
+  const [showCard, setShowCard] = useState(Boolean(card) && !isLoading);
   const [animationProgress, setAnimationProgress] = useState(0);
+  const resolvedPreviewId = card ? previewId ?? `card-preview-${card.id}` : previewId;
 
   useEffect(() => {
     if (isLoading) {
@@ -38,9 +41,8 @@ export const CardPreview = ({
       return () => clearInterval(interval);
     } else if (card) {
       setAnimationProgress(100);
-      setTimeout(() => {
-        setShowCard(true);
-      }, 300);
+      const timeout = setTimeout(() => setShowCard(true), 150);
+      return () => clearTimeout(timeout);
     }
   }, [isLoading, card]);
 
@@ -64,6 +66,7 @@ export const CardPreview = ({
   // Card reveal animation
   return (
     <div
+      data-card-preview-wrapper
       className={`w-full transition-all duration-700 ${
         showCard ? "opacity-100 scale-100" : "opacity-0 scale-95"
       }`}
@@ -72,7 +75,7 @@ export const CardPreview = ({
         {/* Glow effect on card */}
         <div className="absolute -inset-2 bg-linear-to-r from-primary/20 to-violet-600/20 rounded-xl blur-xl opacity-0 animate-fade-in" />
         <div className="relative">
-          <ModernTemplate card={card} />
+          <ModernTemplate card={card} previewId={resolvedPreviewId} />
         </div>
 
         {/* Success particles */}

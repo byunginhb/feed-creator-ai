@@ -41,6 +41,7 @@
     "saveError": "저장 중 오류가 발생했습니다",
     "downloadCard": "카드 다운로드",
     "downloading": "다운로드 중...",
+    "downloadSuccess": "카드 이미지를 저장했어요",
     "downloadError": "다운로드 중 오류가 발생했습니다",
     "myCards": "내 카드",
     "noCards": "저장된 카드가 없습니다",
@@ -61,11 +62,31 @@
   },
   "landing": {
     "hero": {
-      "badge": "AI 기반 콘텐츠 재구성",
-      "title": "URL을 바이럴 카드로 변환하세요",
-      "description": "어떤 기사, 동영상, 텍스트든 아름답고 공유 가능한 요약 카드를 즉시 생성하세요. 뉴스레터, 스레드, 소셜 피드에 완벽합니다.",
-      "cta": "무료로 시작하기",
-      "learnMore": "더 알아보기"
+      "badge": "피드에 쓰기 좋은 요약 카드",
+      "title": "링크 하나로, 피드용 카드 한 장.",
+      "description": "기사·영상·메모를 읽고 정리해 카드로 만들어줍니다. 저장/다운로드로 바로 공유하고, 다음 콘텐츠로 재활용하세요.",
+      "cta": "카드 만들기",
+      "learnMore": "기능 보기"
+    },
+    "homeBullets": {
+      "one": "10–20초 생성",
+      "two": "PNG 다운로드",
+      "three": "카드 저장"
+    },
+    "homeDemo": {
+      "title": "미리보기",
+      "article": "기사",
+      "video": "영상",
+      "thread": "메모",
+      "inputLabel": "입력",
+      "sampleText": "요약하고 싶은 텍스트를 붙여넣어 보세요…",
+      "outputHint": "출력",
+      "outputDescription": "제목 · 요약 · 훅을 한 장에 정리해서, 바로 공유 가능한 카드로 만들어줍니다."
+    },
+    "homeTrust": {
+      "one": "로그인 없이 체험",
+      "two": "다운로드는 로컬에서",
+      "three": "다크/라이트 지원"
     },
     "features": {
       "title": "강력한 기능들",

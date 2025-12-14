@@ -104,7 +104,10 @@ export const CardList = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-4">
-              <CardPreview card={selectedCard} />
+              <CardPreview
+                card={selectedCard}
+                previewId={`card-preview-modal-${selectedCard.id}`}
+              />
             </div>
             <div className="space-y-4">
               <div>
@@ -114,7 +117,10 @@ export const CardList = () => {
               <div>
                 <p className="text-sm whitespace-pre-wrap">{selectedCard.summary}</p>
               </div>
-              <DownloadButton cardId={selectedCard.id} />
+              <DownloadButton
+                cardId={selectedCard.id}
+                previewId={`card-preview-modal-${selectedCard.id}`}
+              />
             </div>
           </div>
         </div>
@@ -122,4 +128,3 @@ export const CardList = () => {
     </div>
   );
 };
-
