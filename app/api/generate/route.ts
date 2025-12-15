@@ -147,7 +147,7 @@ export async function POST(req: NextRequest) {
         "title": "콘텐츠의 제목을 SNS 감성에 맞게, 더 임팩트 있고 짧게(20자 이내) 다시 작성하세요. 원래 제목 그대로 쓰지 마세요.",
         "summary": "핵심 내용을 3~4문장으로 요약하세요. 문장 사이에는 줄바꿈(\\n)을 자주 사용하여 가독성을 높이세요. 이모지를 적절히 사용하여 시각적으로 지루하지 않게 하세요.",
         "hook": "사람들이 클릭할 수밖에 없는, 매우 자극적이고 본질을 꿰뚫는 한 줄 카피(Hook)를 작성하세요. (최대 50자)",
-        "imagePrompt": "A creative, abstract art prompt describing the core theme of this content. Suitable for a background image. Do not mention text."
+        "imagePrompt": "뉴스 기사와 직접 관련된 배경 이미지 생성 프롬프트를 한국어로 작성하세요. 반드시 기사 내용의 핵심 사건/대상/장소/상황이 드러나야 하며, 의미 없는 추상 표현은 피하세요. 텍스트/로고/워터마크/자막/간판/신문지면/스크린 UI는 넣지 마세요. 폭력/피/시신/총상 등 선정적 요소는 피하고, 필요하면 상징적으로 표현하세요. 사진 스타일(포토저널리즘), 조명, 시간대, 분위기, 카메라 구도(광각/클로즈업/로우앵글 등)까지 포함해 1~2문장으로 작성하세요."
       }
 
       Content:
@@ -177,15 +177,36 @@ export async function POST(req: NextRequest) {
     let backgroundImage = null;
     try {
       if (data.imagePrompt) {
-        // 사실적이고 전문가 사진 느낌의 프롬프트 생성
-        const enhancedPrompt = `Professional editorial photography of ${data.imagePrompt}, 
-photorealistic, realistic and authentic, high-end magazine photography style, 
-cinematic lighting with dramatic shadows, shallow depth of field, 
-shot with professional DSLR camera, 85mm lens, f/1.8 aperture, 
-natural colors with subtle enhancement, sophisticated composition, 
-dark moody atmosphere, content-related subject matter, 
-high quality, sharp focus, professional grade, vertical portrait orientation 9:16 aspect ratio, 
-editorial photography, professional camera work`;
+        const articleTitle = (data.title || title || "").toString().trim();
+        const articleHook = (data.hook || "").toString().trim();
+        const articleSummary = (data.summary || "").toString().trim();
+
+        // 뉴스 내용과의 관련성을 높이기 위해, 기사 컨텍스트를 함께 주고(한국어),
+        // 모델이 잘 따라오도록 핵심 제약은 한국어+영어로 중복 명시합니다.
+        const enhancedPrompt = `
+뉴스 기사와 직접 관련된 "배경 이미지"를 생성하세요. 아래 기사 내용을 반영해, 의미 없는 추상 이미지를 피하고 구체적인 장면을 그리세요.
+
+[기사 컨텍스트]
+- 제목: ${articleTitle}
+- 도메인: ${domain}
+- 요약: ${articleSummary}
+- 훅: ${articleHook}
+
+[이미지 지시]
+- 반드시 기사 내용의 핵심 사건/대상/장소/상황이 한눈에 보이게 구성
+- 텍스트/로고/워터마크/자막/간판/신문 지면/스크린 UI 절대 금지 (no text, no logos, no watermark, no UI)
+- 폭력/피/시신/총상 등 선정적 요소 금지 (no gore, no blood, no corpse)
+- 특정 실존 인물처럼 보이는 얼굴 금지 (avoid identifiable faces; anonymous / silhouette / back view)
+- 포토저널리즘 느낌의 사실적인 사진, 자연스러운 색감(파스텔 톤 아님), 조명은 상황에 맞게
+- 세로 9:16, 피드용 배경이므로 중앙에 여백을 조금 남기고 과도하게 복잡하지 않게
+
+[사용자 프롬프트(기사 기반)]
+${String(data.imagePrompt).trim()}
+
+Style: professional photojournalism, editorial photography, high quality, sharp focus, vertical 9:16, cinematic but realistic lighting
+`
+          .replace(/\s+/g, " ")
+          .trim();
 
         const imageResponse = await ai.models.generateImages({
           model: "imagen-4.0-generate-001",
