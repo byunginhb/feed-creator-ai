@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Cards collection
+    match /cards/{cardId} {
+      // Anyone can read public cards
+      allow read: if resource.data.visibility == 'public'
+                  || (request.auth != null && request.auth.uid == resource.data.ownerId);
+
+      // Only authenticated users can create cards
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.ownerId;
+
+      // Only owner can update/delete
+      allow update, delete: if request.auth != null
+                            && request.auth.uid == resource.data.ownerId;
+    }
+
+    // Users collection (for future use)
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // User-specific card backgrounds
+    match /users/{userId}/card-backgrounds/{allPaths=**} {
+      // Anyone can read (for public card images)
+      allow read: if true;
+
+      // Only the owner can write/delete
+      allow write, delete: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
