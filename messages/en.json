@@ -28,7 +28,7 @@
   "card": {
     "createNew": "Create New",
     "startFromLink": "Start from any link",
-    "generateMagicCard": "Generate Magic Card",
+    "generateMagicCard": "Generate Card",
     "takesTime": "Takes about 10-20 seconds to read and summarize.",
     "noCardGenerated": "No card generated yet",
     "enterUrlToStart": "Enter a URL or text to get started",

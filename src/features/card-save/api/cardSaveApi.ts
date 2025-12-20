@@ -160,28 +160,35 @@ export const saveCard = async (card: Card, userId: string): Promise<string> => {
       userId
     );
 
-    const cardDoc: Omit<CardDocument, 'createdAt' | 'updatedAt'> = {
+    // Firestore는 undefined를 허용하지 않으므로 undefined 필드 제거
+    const cardDoc: Record<string, unknown> = {
       ownerId: userId,
       title: card.title,
       hook: card.hook,
       summary: card.summary,
       sourceType: card.sourceType,
-      sourceUrl: card.sourceUrl || undefined,
-      sourceMeta: card.sourceMeta || undefined,
       tone: card.tone,
       templateId: card.templateId,
-      backgroundImage,
       visibility: card.visibility,
       viewCount: card.viewCount || 0,
       shareCount: card.shareCount || 0,
+      createdAt: Timestamp.now(),
+      updatedAt: Timestamp.now(),
     };
 
+    // 선택적 필드는 값이 있을 때만 추가
+    if (card.sourceUrl) {
+      cardDoc.sourceUrl = card.sourceUrl;
+    }
+    if (card.sourceMeta) {
+      cardDoc.sourceMeta = card.sourceMeta;
+    }
+    if (backgroundImage) {
+      cardDoc.backgroundImage = backgroundImage;
+    }
+
     const docRef = await withTimeout(
-      addDoc(collection(db, CARDS_COLLECTION), {
-        ...cardDoc,
-        createdAt: Timestamp.now(),
-        updatedAt: Timestamp.now(),
-      }),
+      addDoc(collection(db, CARDS_COLLECTION), cardDoc),
       20000,
       'Card save timed out'
     );

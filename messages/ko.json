@@ -28,7 +28,7 @@
   "card": {
     "createNew": "새 카드 만들기",
     "startFromLink": "링크로 시작하기",
-    "generateMagicCard": "마법 카드 생성",
+    "generateMagicCard": "카드 생성",
     "takesTime": "약 10-20초가 소요됩니다",
     "noCardGenerated": "아직 생성된 카드가 없습니다",
     "enterUrlToStart": "URL을 입력하여 시작하세요",
