@@ -94,7 +94,7 @@ export const StudioLayout = () => {
           }`}
         />
 
-        <div className="w-full max-w-sm relative z-10 transition-all duration-500 ease-out transform">
+        <div className="w-full max-w-sm relative z-10 transition-all duration-500 ease-out transform text-[22px] sm:text-[24px] lg:text-[26px]">
           <CardPreview
             card={activeCard}
             isLoading={isGenerating}
